@@ -504,8 +504,7 @@ defmodule Bamboo.SMTPAdapter do
     end)
   end
 
-  defp to_gen_smtp_server_config({:tls_cacerts, value}, config)
-       when is_binary(value) do
+  defp to_gen_smtp_server_config({:tls_cacerts, value}, config) do
     Keyword.update(config, :tls_options, [{:cacerts, value}], fn c -> [{:cacerts, value} | c] end)
   end
 
@@ -520,8 +519,7 @@ defmodule Bamboo.SMTPAdapter do
     end)
   end
 
-    defp to_gen_smtp_server_config({:tls_server_name_indication, value}, config)
-       when is_binary(value) do
+    defp to_gen_smtp_server_config({:tls_server_name_indication, value}, config) do
     Keyword.update(config, :tls_options, [{:server_name_indication, value}], fn c ->
       [{:server_name_indication, value} | c]
     end)
