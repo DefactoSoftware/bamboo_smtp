@@ -27,6 +27,7 @@ defmodule Bamboo.SMTPAdapter do
         tls_cacerts: "…", # optional, DER-encoded trusted certificates
         tls_depth: 3, # optional, tls certificate chain depth
         tls_verify_fun: {&:ssl_verify_hostname.verify_fun/3, check_hostname: "example.com"}, # optional, tls verification function
+        tls_server_name_indication: ~"smtp.domain", # optional, server name indication, is default to the server value
         ssl: false, # can be `true`,
         retries: 1,
         no_mx_lookups: false, # can be `true`
@@ -516,6 +517,13 @@ defmodule Bamboo.SMTPAdapter do
   defp to_gen_smtp_server_config({:tls_verify_fun, value}, config) when is_tuple(value) do
     Keyword.update(config, :tls_options, [{:verify_fun, value}], fn c ->
       [{:verify_fun, value} | c]
+    end)
+  end
+
+    defp to_gen_smtp_server_config({:tls_server_name_indication, value}, config)
+       when is_binary(value) do
+    Keyword.update(config, :tls_options, [{:server_name_indication, value}], fn c ->
+      [{:server_name_indication, value} | c]
     end)
   end
 
